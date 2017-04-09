@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
  *
  * @author Andras Olah (olahandras78@gmail.com)
  */
-public class TestMathMethods {
+public class MathMethodsTest {
 
 	int testNumbers; //Generate this many test numbers for a given test object
 
-	public TestMathMethods() {
+	public MathMethodsTest() {
 
 	}
 
@@ -54,7 +54,7 @@ public class TestMathMethods {
 	@Test
 	public void testSubstraction() {
 		System.out.println("Substraction test with 5 random numbers");
-		TestMathMethods substractionTest = new TestMathMethods();
+		MathMethodsTest substractionTest = new MathMethodsTest();
 		substractionTest.testNumbers = 5;
 		int[] inputValues = new int[substractionTest.testNumbers];
 		System.out.printf("Running %d test cases%n", substractionTest.testNumbers);
@@ -88,21 +88,21 @@ public class TestMathMethods {
 	 * Test of division method, of class MathMethods.
 	 */
 	@Test
-	public void testDivision() {
+	public void testDivision() throws divideByZeroException {
 		System.out.println("division");
 		int[] inputValues = new int[2];
 		double expResult;
 		double result;
-		
-		inputValues[0]=10;
-		inputValues[1]=10;
-		expResult=1.0;
+
+		inputValues[0] = 10;
+		inputValues[1] = 10;
+		expResult = 1.0;
 		result = MathMethods.division(inputValues);
 		assertEquals(expResult, result, 0.0);
 
-		inputValues[0]=5;
-		inputValues[1]=10;
-		expResult=0.5;
+		inputValues[0] = 5;
+		inputValues[1] = 10;
+		expResult = 0.5;
 		result = MathMethods.division(inputValues);
 		assertEquals(expResult, result, 0.0);
 
@@ -112,6 +112,31 @@ public class TestMathMethods {
 		//expResult=1.0;
 		//result = MathMethods.division(inputValues);
 		//assertEquals(expResult, result, 0.0);
+	}
+
+	@Test
+	public void whenDividedByZeroThenExceptionThrown() {
+		//test method name:BDD when___Then___ format
+		try {
+			int[] inputValues = {1, 0};
+			double result;
+			result = MathMethods.division(inputValues);
+			fail("Should have thrown divideByZero exception");
+		} catch (divideByZeroException e) {
+//this is the expected outcome
+		}
+	}
+
+	/**
+	 * Test of divisionNoException method
+	 * 
+	 * The method should not produce any exception when dividing by zero, because the method itself catches the exception.
+	 */
+	@Test
+	public void whenDividedByZeroNoExcThrownThenNoExceptionThrownFirstArgumentReturned() {
+		double result = MathMethods.divisionNoException(42, 3, 3, 0);
+		double expResult = 42;
+		assertEquals(expResult, result, 0.0);
 	}
 
 	/**

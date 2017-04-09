@@ -22,18 +22,36 @@ public class MathMethods {
 		return result;
 	}
 
-	public static double division(int... inputValues) {
+	public static double division(int... inputValues) throws divideByZeroException {
 		double result = (double) inputValues[0];
 		for (int i = 1; i < inputValues.length; i++) {
+			if (inputValues[i] == 0) {
+				throw new divideByZeroException("Error! Divided by zero!");
+			}
 			result /= inputValues[i];
+		}
+		return result;
+	}
+
+	public static double divisionNoException(int... inputValues) {
+		double result = (double) inputValues[0];
+		try {
+			for (int i = 1; i < inputValues.length; i++) {
+				if (inputValues[i] == 0) {
+					throw new divideByZeroException("Error! Divided by zero!");
+				}
+				result /= inputValues[i];
+			}
+		} catch (divideByZeroException e) {
+			return (double) inputValues[0];
 		}
 		return result;
 	}
 
 	public static double multiplication(int... inputValues) {
 		double result = (double) inputValues[0];
-		for (int i=1;i<inputValues.length;i++){
-			result*=inputValues[i];
+		for (int i = 1; i < inputValues.length; i++) {
+			result *= inputValues[i];
 		}
 		return result;
 	}
