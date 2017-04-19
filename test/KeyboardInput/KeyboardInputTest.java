@@ -5,20 +5,10 @@
  */
 package KeyboardInput;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -56,9 +46,11 @@ public class KeyboardInputTest {
 	 */
 	@Test
 	public void testReplacingSystemIn() throws UnsupportedEncodingException {
+		System.out.println("**testReplacingSystemIn**");
 		//Prepare test string
 		String testCharset = Charset.defaultCharset().name();
-		String testInput = "English Only";
+		String testInput = "English Only - áááééőőúúóóüüööíí";
+		System.out.println("The expected string: " + testInput);
 
 		//Create a ByteArray for inputStream
 		byte[] stringConvertedToByteArray = testInput.getBytes(testCharset);
@@ -69,6 +61,7 @@ public class KeyboardInputTest {
 
 		//Get the input
 		KeyboardInput testInstance = new KeyboardInput();
+		testInstance.charset=testCharset;
 		String actInput = testInstance.getInputWithScanner();
 
 		//reset the SystemIN
@@ -80,10 +73,17 @@ public class KeyboardInputTest {
 
 	@Test
 	public void testGetInputWithParameters() throws UnsupportedEncodingException, IOException {
+		System.out.println("**testGetInputWithParameters**");
+		//prepare test string
 		String expString = "English only ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP";
 		System.out.println("The expected string: " + expString);
+		//create object
 		KeyboardInput instance = new KeyboardInput();
+
+		//Prepare ByteArrayInputStream as the input parameter for InputStream
 		ByteArrayInputStream testInputStream = new ByteArrayInputStream(expString.getBytes(instance.setCharset("UTF-8").charset));
+
+		//Call the method with the mock inputstream
 		String actString = instance.getInputWithParameters(testInputStream,  System.out);
 		assertEquals(expString, actString);
 	}
